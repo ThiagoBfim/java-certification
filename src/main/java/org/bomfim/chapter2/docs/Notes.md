@@ -170,3 +170,12 @@ System.out.println(result); // Output: -6
   ```
 
 ## Review Questions Notes
+
+* 9 % 1 == 0
+* Be careful with new instance with increment `c = b++; `
+```
+int b = 5, c = b++;
+System.out.println(b + " - " + c);
+```
+*  short zebra = (byte) weight * (byte) height; //DOES NOT COMPILE
+*  short zebra = (byte) (double) height; //COMPILE
