@@ -13,8 +13,8 @@
 13. D *                             ✓ initialize block is called after new instance of the object, before the constructor
 14. E * - 4,8,11,12                 ✓
 15. B                               ✓
-16. D *                             ❌
-17. E - line 5                      ❌
+16. D *                             ❌ // public void print(float x) {} print(6.78) //DOES NOT COMPILE
+17. E - line 5                      ❌ 
 18. B,D,E                           ✓
 19. B,C,E                           ✓
 20. A,E                             ✓

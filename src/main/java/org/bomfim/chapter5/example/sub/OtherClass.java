@@ -18,9 +18,11 @@ public class OtherClass {
 //        son.getName(); //DOES NOT COMPILE
         son.getSuperName(); // COMPILE
 
+//        son.x;
         Father f = new Son();
 //        f.getName() //DOES NOT COMPILE
 
+//        Father.x;
         System.out.println("before initialize");
         OtherClass otherClass = new OtherClass();
         System.out.println(otherClass.x);

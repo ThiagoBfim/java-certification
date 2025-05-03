@@ -5,6 +5,7 @@ import org.bomfim.chapter5.example.Father;
 public class Son extends Father {
     protected void getSuperName() {
         super.getName();
+        System.out.println(x);
     }
 
 //    @Override
