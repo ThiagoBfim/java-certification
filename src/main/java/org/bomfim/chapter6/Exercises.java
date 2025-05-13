@@ -95,9 +95,12 @@ public class Exercises {
 
      @Override
      public Integer dance(String p) {
+        return null;
      }
 
-     public int eat(String p) {}
+     public int eat(String p) {
+        return 1;
+     }
  }
 
     public static class Carnivore {
