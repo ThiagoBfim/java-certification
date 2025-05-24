@@ -238,7 +238,8 @@ public class Exercises {
         Test test = new Test();
 //        Interface a = (Interface)test; //COMPILE throws java.lang.ClassCastException
 
-        var stripes = exercises.new Zebra(). new Stripes(){};
+        var stripes = exercises.new Zebra().new Stripes() {
+        };
         stripes.print();
     }
 
@@ -252,6 +253,29 @@ public class Exercises {
                 System.out.print(Zebra.this.x);
             }
         }
+    }
+
+    interface withMethod {
+        void method();
+    }
+
+    enum Teste implements withMethod {
+        A {
+            @Override
+            public void method() {
+
+            }
+
+            @Override
+            void method2() {
+
+            }
+        };
+
+        @Override
+        public abstract void method();
+
+        abstract void method2();
     }
 
     interface Interface {
@@ -294,6 +318,8 @@ public class Exercises {
         private static int y = 1;
 
         public record Record(int id) {
+            private  static int x = 10;
+
             public Record {
                 System.out.println(id); //COMPILE
                 System.out.println(y); //COMPILE
@@ -337,6 +363,9 @@ public class Exercises {
     }
 
     public record C(double d) {
+        public C(int d) {
+            this((double) d);
+        }
     }
 
     public record Records(Record record, String id) {

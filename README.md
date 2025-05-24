@@ -64,7 +64,9 @@ proficiency in modern Java programming.
 * Forum: https://coderanch.com/c/certification
 * Wiley test mocks: https://login.education.wiley.com/
 * Author's blog: https://www.selikoff.net/ocp21/
-* 
+* Gihub With some information: https://github.com/r331/OCP-Oracle-Certified-Professional-Java-SE-21-1Z0-839-Open-Study-Guide/blob/main/src/main/asciidoc/1Z0-829StudyGuide.adoc
+* Java 21 - 6 full tests: https://www.udemy.com/course/ocp-oracle-certified-professional-java-developer-prep/learn/quiz/5686332#overview
+
 
 ## Contributing
 
