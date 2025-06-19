@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Exercises {
-
     public static void main(String[] args) {
         System.out.println("Constructors");
         System.out.println("Be careful with sensitive case, and methods with name name as the constructor");

@@ -514,7 +514,6 @@ public class Exercises {
         System.out.print("\"|teste|\".indent(5).indent(-3) - " + "|teste|".indent(5).indent(-3));
         System.out.print("\"| teste |\".indent(-3) - " + "| teste |".indent(-3));
 
-
         var textBlock = """
                 a
                  b
@@ -528,6 +527,19 @@ public class Exercises {
         System.out.println("concat.length() - " + concat.length());
         System.out.print("concat.indent(-1).length() - " + concat.indent(-1).length()); //Remove spacer from a,b and c and add /n at the end
         System.out.println(" //Remove spacer from a,b and c and add /n at the end");
+        System.out.println("""
+        Incidental whitespace Espaço que é ignorado na hora de imprimir.
+                Essential whitespace: Espaço intencional
+                """);
+
+        System.out.println(switch (2) {
+            case 1 -> textBlock;
+            case 10 -> concat;
+            default -> concat;
+        });
+        System.out.println("""
+                String com \\ no final não faz quebra de linha. No meio é preciso fazer scape.
+                """);
     }
 
     private static void trimAndStrip() {

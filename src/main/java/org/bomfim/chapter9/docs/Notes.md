@@ -82,12 +82,6 @@
 
 ## Review Questions Notes
 
-## Tricks
-
-
-## Review Questions Notes
-
-
 ## Extra
 
 # Naming Conventions for Generics

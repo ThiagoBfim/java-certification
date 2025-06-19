@@ -1,11 +1,9 @@
 package org.bomfim;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.stream.Stream;
-
 public class Main {
+
     public static void main(String[] args) {
+
         Integer x = 0;
         String result = switch (x){
             case 1 -> "ok";
