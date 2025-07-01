@@ -38,8 +38,6 @@ Executor.execute() //returns void
 25. E,F submit vs execute ?                            ✓
 
 
-Time: 47
-
 Result:
 
 * Correct: 12
