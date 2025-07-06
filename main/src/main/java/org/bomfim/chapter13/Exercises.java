@@ -1,5 +1,6 @@
 package org.bomfim.chapter13;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,6 +25,11 @@ public class Exercises {
         cyclicBarrier();
 
         concurrentCollection();
+
+        ThreadLocalRandom.current().ints();
+
+//        List.of(1,2,3).parallelStream();
+//        List.of(1,2,3).stream().parallel();
 
         Thread.ofPlatform().daemon(true).start(() -> {
             System.out.println("Daemon started");
@@ -151,6 +157,16 @@ public class Exercises {
         System.out.println(integersConcurrent); //1, 2, 3, 4, 5, 5, 5, 5
         System.out.println(integers);
 
+        System.out.println("\nConcurrentSkipListSet");
+
+        Set<Integer> integersConcurrent2 = new ConcurrentSkipListSet<>(integers);
+        for (Integer integer : integersConcurrent2) {
+            integersConcurrent2.add(6);
+        }
+        System.out.println(integersConcurrent2); //1, 2, 3, 4, 6
+        System.out.println(integers); //[1, 2, 3, 4]
+
+
 //        Collections.synchronizedCollection();
     }
 
@@ -180,6 +196,7 @@ public class Exercises {
     private static void lock() throws InterruptedException {
         System.out.println("Lock");
         ReentrantLock lock = new ReentrantLock();
+        lock.lock();
         lock.lock();
         lock.lock();
         System.out.println("Locked: " + lock.isLocked());
@@ -300,6 +317,22 @@ public class Exercises {
         try (ExecutorService executorService = Executors.newCachedThreadPool()) {
             Future<?> f1 = executorService.submit(() -> System.out.println("Executor"));//Runnable
             Future f2 = executorService.submit(() -> 5); //Callable
+            Future<Long> f3 = executorService.submit(() -> {
+                if(true) {
+                    throw new IOException("A");
+                }
+                return 1L;
+            }); //Callable
+
+             Future f4 = executorService.submit(new Runnable() {
+                 @Override
+                 public void run() {
+//                     if(true) {
+//                         throw new IOException("A"); //DOES NOT WORK
+//                     }
+                     System.out.println(Thread.currentThread().getName());
+                 }
+             });
             Object o = f1.get();
             System.out.println(o); //null
             System.out.println(f2.get()); //5
