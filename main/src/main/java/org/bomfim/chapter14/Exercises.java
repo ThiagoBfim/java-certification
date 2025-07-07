@@ -11,7 +11,11 @@ import java.util.stream.Stream;
 public class Exercises {
 
     public static void main(String[] args) throws IOException {
+        System.out.println(Files.mismatch(Path.of("./text.txt"), Path.of("./text-2.txt"))); //2
+        System.out.println(Files.mismatch(Path.of("./text.txt"), Path.of("./text.txt"))); //-1
+        System.out.println("\n");
         methodToCreateFile();
+
 
 //        Path path1 = Path.of(".");
 //        Files.createDirectories(path1);

@@ -279,7 +279,7 @@ Example:
 
         System.out.println(Files.mismatch(Path.of("./text.txt"), Path.of("./test-2.txt"))); //-1
         System.out.println(Files.mismatch(Path.of("./text.txt"), Path.of("./text.txt"))); //-1
-        System.out.println(Files.mismatch(Path.of("./text.txt"), Path.of("./README.md"))); //0
+        System.out.println(Files.mismatch(Path.of("./text.txt"), Path.of("./README.md"))); //0 Fail on the first character
 
 
 

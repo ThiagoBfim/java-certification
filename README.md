@@ -67,7 +67,6 @@ proficiency in modern Java programming.
 * Gihub With some information: https://github.com/r331/OCP-Oracle-Certified-Professional-Java-SE-21-1Z0-839-Open-Study-Guide/blob/main/src/main/asciidoc/1Z0-829StudyGuide.adoc
 * Java 21 - 6 full tests: https://www.udemy.com/course/ocp-oracle-certified-professional-java-developer-prep/learn/quiz/5686332#overview
 
-
 ## Contributing
 
 Contributions are welcome! Feel free to submit issues or pull requests to improve the study materials.
