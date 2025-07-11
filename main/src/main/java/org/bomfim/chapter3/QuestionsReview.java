@@ -46,4 +46,14 @@ public class QuestionsReview {
 //        }
 //        System.out.print("Swim!");
     }
+
+//    double dance(Object speed) {
+//        return switch (speed) {
+//            case 5 -> {yield 4}; //DOES NOT COMPILE
+//            case 10 -> 8; //DOES NOT COMPILE
+//            case 15, 20 -> 12; //DOES NOT COMPILE
+//            default -> 20;
+//            case null -> 16; //DOES NOT COMPILE
+//        };
+//    }
 }

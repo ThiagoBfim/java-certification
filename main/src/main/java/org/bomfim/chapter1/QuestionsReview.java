@@ -25,6 +25,8 @@ public class QuestionsReview {
         int a3 = 0b101;
 //        int a4 = 9_2.1_2; //does not compile
         double a4 = 9_2.1_2;
+//        int a5 = 9_2.1_2;
+//        int x2 = 9L;
 
     }
 }

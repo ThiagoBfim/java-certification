@@ -1,12 +1,20 @@
 package org.bomfim.chapter1;
 
-import java.io.StringReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Exercises {
 
 
+    public static float code;
+    public float code2;
+    void test(){
+        System.out.println(code);
+        System.out.println(code2);
+    }
     public static void main(String[] args) {
+        System.out.println(code);
         double x = 1_2;
         printValueOf();
         doubleValue();
