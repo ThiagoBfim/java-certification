@@ -36,8 +36,8 @@ This code will only check the root folder, because of the depth parameter "0"
 
 Result:
 
-* Correct: 
-* Mistake: 
+* Correct: 11
+* Mistake: 14
 * Score: 44%
 * Passing Score: 68%
 * Took: 40min

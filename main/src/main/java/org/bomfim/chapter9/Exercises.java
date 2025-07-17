@@ -86,11 +86,11 @@ public class Exercises {
         list3.add(new B());
         list3.add(new C());
 //        List<? extends B> list4 = new ArrayList<A>(); // DOES NOT COMPILE
-//        List<? super B> list5 = new ArrayList<A>();
+        List<? super B> list5 = new ArrayList<A>();
 //        List<?> list6 = new ArrayList<? extends A>(); // DOES NOT COMPILE
     }
 
-    //    <B extends A> B third(List<B> list) { return new B();} // DOES NOT COMPILE
+//        <B extends A> B third(List<B> list) { return new B();} // DOES NOT COMPILE
     <D extends A> B third(List<B> list) { return new B();} //COMPILE
 //    <? super A> B thirdA(List<B> list) { return new B();} //DOES NOT COMPILE - Uses type with super
     <A> B thirdA(List<? super B> list) { return new B();}
@@ -154,6 +154,7 @@ public class Exercises {
     }
 
     public class Mammal {
+
         public List<CharSequence> play() {
             return List.of("Squeak", "Roar");
         }
@@ -168,6 +169,7 @@ public class Exercises {
 
     public class Goat extends Mammal {
 //        public List<String> play() {}// DOES NOT COMPILE
+
     }
 
     public static class Animal {
@@ -178,6 +180,8 @@ public class Exercises {
 
         protected void run(ArrayList<Double> list) {
         }
+
+
     }
 
     private static void sequencedCollectionsAndMap() {

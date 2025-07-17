@@ -412,7 +412,7 @@ Tools Breakdown:
     * Key Flags:
    
         * `javac -cp <classpath> -d <directory> <classes> `(Non-modular compile)
-        * `javac -p <moduleFolder> -d <directory> <moduleInfoAndClasses>` (Modular compile)
+        * `javac -p <moduleFolder> -d <directory>/<moduleInfoAndClasses>` (Modular compile)
 
 Memory Hook: "Java compiler needs a path (-cp/-p) to direct where to save."
 

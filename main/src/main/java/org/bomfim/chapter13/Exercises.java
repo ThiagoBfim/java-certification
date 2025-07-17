@@ -293,6 +293,9 @@ public class Exercises {
     }
 
     private static void threadPool() throws InterruptedException, ExecutionException {
+        try (ExecutorService executorService = Executors.newScheduledThreadPool(1)) {
+//            ScheduledFuture<Integer> schedule = scheduledExecutorService.schedule(() -> 10, 5, TimeUnit.MILLISECONDS); //DOES NOT COMPILE
+        }
         try (ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1)) {
             ScheduledFuture<Integer> schedule = scheduledExecutorService.schedule(() -> 10, 5, TimeUnit.MILLISECONDS);
             System.out.println(schedule.get());

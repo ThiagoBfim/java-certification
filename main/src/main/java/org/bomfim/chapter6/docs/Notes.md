@@ -15,9 +15,10 @@
 * FALSE: Overridden methods must have the same return type.
 * Overloaded methods can have different return types, while overridden and hidden methods can have covariant return types
 * FALSE: An overridden method must contain method parameters that are the same or covariant with the method parameters in the inherited method.
-* There is no such thing as a covariant signature. An overridden method must not declare any new checked exceptions or a checked exception that is broader than the inherited method.
-* Overriden a statics method must follow the overriden rules. It must be static too, and it is considered a hiden method
-* The overriden method must have the same or more restrictive type. Example: If the superclass returns Number the subclass can return Integer, the opposite is not true. 
+* There is no such thing as a covariant signature. 
+An overridden method must not declare any new checked exceptions or a checked exception that is broader than the inherited method.
+* Overridden a statics method must follow the overridden rules. It must be static too, and it is considered a hiden method
+* The overridden method must have the same or more restrictive type. Example: If the superclass returns Number the subclass can return Integer, the opposite is not true. 
 
 * A class can implement any number of interfaces.
 * If class A extends the class B, then B is a superclass of A.

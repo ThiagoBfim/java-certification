@@ -111,7 +111,7 @@ Note2: In case an exception is thrown by the finally block, it suppresses the ex
         Try-with-resources does not requires catch or finally blocks.
         Only objects that implements AutoCloseable or Closeable can use the try-with-resources.
 
-**Be careful with elements that is used after the try-with-resources.**
+**Be careful with elements that are used after the try-with-resources.**
 
 ```
 var writer = Files.newBufferedWriter("path");
@@ -248,14 +248,15 @@ The following summarizes the rules for CompactNumberFormat:
  * It then returns up to the first three digits of that range, rounding the last digit as needed.
  * Finally, it prints an identifier. If SHORT is used, a symbol is returned. If LONG is used, a space followed by a word is returned.
 
+> When a CompactNumberFormat instance is requested without a style, it uses the SHORT style by default
 
 ### Be careful
 
 NumberFormat.getCurrencyInstance throws checked exception, it should be handled
 
         try{
-        System.out.println(NumberFormat.getCurrencyInstance(Locale.US).parse("$40.45")); //40.45
-        System.out.println(NumberFormat.getCurrencyInstance(Locale.GERMANY).parse("$40.45")); // java.text.ParseException: Unparseable number: "$40.45"
+            System.out.println(NumberFormat.getCurrencyInstance(Locale.US).parse("$40.45")); //40.45
+            System.out.println(NumberFormat.getCurrencyInstance(Locale.GERMANY).parse("$40.45")); // java.text.ParseException: Unparseable number: "$40.45"
         } catch (ParseException e) {}
 
 

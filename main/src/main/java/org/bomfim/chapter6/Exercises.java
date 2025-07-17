@@ -86,6 +86,7 @@ public class Exercises {
     private void eat() {}
     protected static void drink() {}
     public Number dance(String p) { return null; }
+    public Number dance(Number p) { return null; }
  }
 
  class Monkey extends Mammal {
@@ -97,9 +98,14 @@ public class Exercises {
         return null;
      }
 
+     public Integer dance(Integer p) {return null;}
+
+//     @Override
+//     public Integer dance(Integer p) {return null;} //NOT and Override, it is an overload
+
      public int eat(String p) {
         return 1;
-     }
+     } //OVERLOAD
  }
 
     public static class Carnivore {

@@ -13,6 +13,7 @@ public class Exercises {
         new AnimalA();
         new GlobalTask();
         ServiceLoader<AnimalService> animalServiceLoader = ServiceLoader.load(org.bomfim.service.AnimalService.class);
+
 //        new org.bomfim.serviceanimal.AnimalServiceImpl(); //DOES NOT COMPILE, not exported
         System.out.println(animalServiceLoader.stream().count());
         for (AnimalService animalService : animalServiceLoader) {

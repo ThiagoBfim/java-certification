@@ -1,8 +1,6 @@
 package org.bomfim.chapter9;
 
-import java.util.Comparator;
-import java.util.SequencedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Example {
 
@@ -32,6 +30,36 @@ public class Example {
             t2.add(s1);
             t2.add(s2);
             System.out.println(t1 + " " + t2);
+            ArrayList<? super Number> list = new ArrayList <Object>();
+        }
+    }
+
+    public record Hello<T>(T t) {
+        public Hello(T t) {
+            this.t = t;
+        }
+
+        private <T> void println(T message) {
+            System.out.print(t + "-" + message);
+        }
+
+        private static <T> void println2(T message) {
+            System.out.print(message);
+        }
+    }
+
+    public static class MyComparator implements Comparator<String> {
+        public int compare(String a, String b) {
+            return b.toLowerCase().compareTo(a.toLowerCase());
+        }
+
+        public static void main(String[] args) {
+            String[] values = {"123", "Abb", "aab"};
+            Arrays.sort(values);
+            System.out.println(Arrays.toString(values));
+            Arrays.sort(values, new MyComparator());
+            for (var s : values)
+                System.out.print(s + " ");
         }
     }
 }

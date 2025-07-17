@@ -7,6 +7,9 @@ public class Box {
     public void Box() {
         System.out.println("OK");
     }
+    public Box(){
+        System.out.println("CONSTRUCTOR");
+    }
 
     public static void main(String[] args) {
         System.out.println("Before");

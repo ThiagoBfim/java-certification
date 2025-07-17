@@ -18,7 +18,7 @@ public class Exercises {
                 (Animal a) -> true //works
                 (Animal a) -> {return true;} //works
                 (Animal a) -> {return true} //COMPILE ERROR, missing semicolon
-                test(new Animal(), (Animal a) -> {true;}); //COMPILE ERROR
+                test(new Animal(), (Animal a) -> {true;}); //COMPILE ERROR, missing return
                 Validator x = (a) -> false;
                 var x2 = (a) -> false; //DOES NOT COMPILE, it is not possible to assign lambda to var
                 """);
