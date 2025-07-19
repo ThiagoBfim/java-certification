@@ -22,28 +22,32 @@ public class Main {
 
     static char x;
 
-    public static void method(){
-        enum Enum{A,B,C};
+    public static void method() {
+        enum Enum {A, B, C}
+        ;
     }
+
     public static void main(String[] args) throws IOException {
 //        System.out.println(1/0); //ArithmeticException: / by zero
         System.out.println(1 / 0.0); //Infinity
 
-        var p1 = Path.of("/zoo/./bear","../food.txt");
+        var p1 = Path.of("/zoo/./bear", "../food.txt");
         p1.normalize().relativize(Path.of("/lion"));
         System.out.println(p1.normalize().relativize(Path.of("/lion"))); // ../../lion
         System.out.println(p1); // /zoo/food.txt
 
         var p2 = Path.of("/zoo/animals/bear/koala/food.txt");
-        System.out.println(p2.subpath(1,3).getName(1)); //bear
-        System.out.println(p2.subpath(1,2).getName(0)); //bear
-        System.out.println(p2.subpath(0,2)); //zoo/animals
+        System.out.println(p2.subpath(1, 3).getName(1)); //bear
+        System.out.println(p2.subpath(1, 2).getName(0)); //bear
+        System.out.println(p2.subpath(0, 2)); //zoo/animals
+        System.out.println(p2.subpath(1, 2)); //animals
 
         int[] array = {6, 9, 8};
         System.out.println("B" + Arrays.binarySearch(array, 9)); //B-1 Array is not sorted
-        System.out.println("C" + Arrays.compare(array, new int[] {6, 9, 8})); //C0
-        System.out.println("M" + Arrays.mismatch(array, new int[] {6, 9, 8})); //M-1
-        System.out.println("M" + Arrays.mismatch(array, new int[] {6, 6, 8})); //M-1
+        System.out.println("C" + Arrays.compare(array, new int[]{6, 9, 8})); //C0
+        System.out.println("C" + Arrays.compare(array, new int[]{6, 9, 8, 9, 10, 11})); //C-3
+        System.out.println("M" + Arrays.mismatch(array, new int[]{6, 9, 8})); //M-1
+        System.out.println("M" + Arrays.mismatch(array, new int[]{6, 6, 8})); //M-1
 
         stringBuilder();
 
@@ -62,7 +66,7 @@ public class Main {
         Path path1 = Path.of("/cats/../panther");
         System.out.println(path1.normalize()); // - /cats
 
-        System.out.println(3/2);
+        System.out.println(3 / 2);
         System.out.println("Map");
         NavigableMap<Integer, String> map = new TreeMap<>(Map.of(1, "A", 2, "B", 3, "C"));
         System.out.println(map.tailMap(1)); //{1=A, 2=B, 3=C}
@@ -77,15 +81,19 @@ public class Main {
 
         String String =
                 """ 
-                   Str 
-                    Str 
-                """;
+                           Str 
+                            Str 
+                        """;
         System.out.println("String: " + String);
         System.out.println(String.charAt(4));
         x = 5;
 //        while (false) { x=3; }
-        if(false){x=3;}
-        if(true){x=3;}
+        if (false) {
+            x = 3;
+        }
+        if (true) {
+            x = 3;
+        }
 //        List list = new ArrayList();
 //        list.add(2, "a"); //java.lang.IndexOutOfBoundsException: Index: 2, Size: 0
 //
@@ -291,6 +299,7 @@ public class Main {
 
 
     public record Journal(int id, String name) {
+
         //        public Journal(int id, String name) {
 //            this.id = id;
 //        }
@@ -309,13 +318,25 @@ public class Main {
             this.name = name;
             System.out.println(name);
         }
+
+        //public Journal2(int id) { //does not compile
+        //    this.id = id;
+        //    this.name = "ab";
+        //}
+        public Journal2(int id) {
+            this(id, "abc");
+        }
+
+        public Journal2() {
+            this(0, "Journal");
+        }
     }
 
 
-    static void testing(){
+    static void testing() {
 //        var ia[][] = { {1,2}, null};
 //        var ia[][] = new int[][]{ {1,2}, null};
-        var ia = new int[][]{ {1,2}, null};
+        var ia = new int[][]{{1, 2}, null};
     }
 
 //    Long getValue() { return 2; //DOES NOT COMPILE }
@@ -342,6 +363,7 @@ public class Main {
 //        }
 //    }
 
-    long getValue() { return 2; //COMPILE
-         }
+    long getValue() {
+        return 2; //COMPILE
+    }
 }

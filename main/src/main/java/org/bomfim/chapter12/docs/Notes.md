@@ -513,8 +513,7 @@ Unlike an automatic module, it is on the classpath rather than the module path.
 
 This is the "default" module for any code that is placed on the classpath (using -cp or --class-path) and is not part of an explicitly defined named module.
 
-`java -cp out com.example.MyApplication
-`
+`java -cp out com.example.MyApplication`
 
 ### Differences Between Modulepath and Classpath
 

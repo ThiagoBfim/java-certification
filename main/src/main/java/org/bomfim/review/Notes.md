@@ -225,9 +225,12 @@ String sa = new String[ ]{"a", "b", "c"}; //DOES NOT COMPILE
     int[] array = {6, 9, 8};
     System.out.println("B" + Arrays.binarySearch(array, 9)); //B-1 Array is not sorted
     System.out.println("C" + Arrays.compare(array, new int[] {6, 9, 8})); //C0
+    System.out.println("C" + Arrays.compare(array, new int[]{6, 9, 8, 9, 10, 11})); //C-3
     System.out.println("M" + Arrays.mismatch(array, new int[] {6, 9, 8})); //M-1
     System.out.println("M" + Arrays.mismatch(array, new int[] {6, 6, 8})); //M 1
 ```
+
+> Compare() will return a positive or negative number with the difference in the number of elements in both the arrays.
 
 * Arrays Mismatch returns -1 if the arrays are equal
 * Arrays Mismatch returns index of first mismatch otherwise.
@@ -331,7 +334,7 @@ BE CAREFUL with DateTime with Date variable
     System.out.println(result); //2026-06-30T13:04
 ```
 
-#### Summer Time
+#### Summer Time - Daylight Savingn
 
     LocalDate.of(2025, 03, 9).atTime(1, 30, 0).atZone(ZoneId.of("US/Eastern")); // 2025-03-09T01:30-05:00[US/Eastern]
     LocalDate.of(2025, 03, 9).atTime(1, 30, 0).plusHours(1).atZone(ZoneId.of("US/Eastern")); // 2025-03-09T03:30-04:00[US/Eastern]
@@ -356,6 +359,12 @@ ChronoUnit.Hours.between(date1, date2); Calculates the difference between applyi
     long diff = ChronoUnit.HOURS.between(dateTime1, dateTime2); //1
     long diff = ChronoUnit.HOURS.between(dateTime2, dateTime1); //-2
     int diffHours = dateTime1.getHour() - dateTime2.getHour(); //2
+
+
+> Durations and periods differ in their treatment of daylight savings time when added to ZonedDateTime. A Duration will add an exact number of seconds, thus a duration of one day is always exactly 24 hours. By contrast, a Period will add a conceptual day, trying to maintain the local time.
+
+
+
 
 ## Cap 05
 
@@ -449,6 +458,11 @@ public class Test5 {
 * Record cannot have an instance variable
 
 
+### Switch
+
+Switch can be used with these primitive types: `byte, short, char, int`
+
+
 ### Sealed and Switch and Record
 
 ```java
@@ -516,6 +530,19 @@ sealed interface Member permits Person {
             this.id = id;
             this.name = name;
             System.out.println(name);
+        }
+
+        //public Journal2(int id) { //does not compile
+        //    this.id = id;
+        //    this.name = "ab";
+        //}
+        
+        public Journal2(int id) {
+            this(id, "abc");
+        }
+
+        public Journal2() {
+            this(0, "Journal");
         }
     }
 
@@ -685,11 +712,10 @@ Be careful with public module file `module-info.java`
 
 * Does not works, module does not have the `public` access modifier
 
-
+> module-info.java must not be empty.
 
 > Just add an empty module-info.java to the jar. - If you don't export a package then other modular jars cannot access classes from this jar.
 > Every module must reside in a directory (or a jar) of its own.
-
 
 ----
 
@@ -720,7 +746,6 @@ So, there are no non-modular classes/packages in this approach.
 Remember that only packages on automatic modules can read packages present on the classpath.
 If you migrate a package as a regular explicitly named module and put it on
 module-path, it can no longer access classes on classpath.
-
 
 #### Uses a service
 
@@ -768,7 +793,52 @@ module customer {
 
 > JDK is divided into a set of modules that can be combined at compile time, build time, and run time into a variety of configurations.
 
+----
 
+#### Named Modules
+
+A named module is one containing a module-info.java file.\
+Named modules appear on the module path rather than the classpath.\
+A named module has the name inside the module-info.java file and is on the module path.
+
+`java -p mods -m my.app/com.example.MainApp`
+
+#### Automatic Modules
+
+An automatic module appears on the module path but does not contain a module-info.java file.
+
+The Module name will be the name configured in the MANIFEST.MF or if does not exist, it will be inferred from the jar file name.
+
+The rule is:
+
+1. Check Manifest First: If the MANIFEST.MF does specify an Automatic-Module-Name, that name is used, and no further rules are applied.
+2. Remove File Extension: The .jar (or other file extension) is removed from the end of the JAR's filename.
+3. Remove Version Information: Any version string (digits and dots, potentially with extra text like -1.0.0 or -1.0-RC) is removed from the end of the name.
+4. Replace Non-Alphanumeric with Dots: All characters that are not letters (a-z, A-Z) or numbers (0-9) are replaced with a single dot (.).
+5. Collapse Multiple Dots: Any sequences of two or more consecutive dots are replaced with a single dot.
+6. Remove Leading/Trailing Dots: If the resulting name starts or ends with a dot, that dot is removed.
+
+Example:
+
+| # | Description                                                         | Example 1                       | Example 2       |
+|:--|:--------------------------------------------------------------------|:--------------------------------|:----------------|
+| 1 | Beginning JAR name                                                  | `commons2-x-1.0.0-SNAPSHOT.jar` | `mod_$-1.0.jar` |
+| 2 | Remove file extension                                               | `commons2-x-1.0.0-SNAPSHOT`     | `mod_$-1.0`     |
+| 3 | Remove version information                                          | `commons2-x`                    | `mod_$`         |
+| 4 | Replace special characters                                          | `commons2.x`                    | `mod..`         |
+| 5 | Replace sequence of dots                                            | `commons2.x`                    | `mod.`          |
+| 6 | Remove leading/trailing dots (results in the automatic module name) | `commons2.x`                    | `mod`           |
+
+`java -p mods -m my.app/com.example.MainApp`
+
+#### Unnamed Modules
+
+An unnamed module appears on the classpath. Like an automatic module, it is a regular JAR.
+Unlike an automatic module, it is on the classpath rather than the module path.
+
+This is the "default" module for any code that is placed on the classpath (using -cp or --class-path) and is not part of an explicitly defined named module.
+
+`java -cp out com.example.MyApplication`
 
 ## Cap 13
 
@@ -894,6 +964,10 @@ The declared type of System.in is java.io.InputStream. It refers to an object of
 
 Although in is a final variable and so, it cannot be reassigned directly. However, System class has a public static void setIn(InputStream in) method that can be used to change in to refer to any other InputStream.
 
+
+> Call to System.console() doesn't throw any exception. It just returns null if Console is not available.
+
+
 ### Files
 
 ```java
@@ -921,16 +995,21 @@ Thus, for example, If your Path is "c:\\code\\java\\PathTest.java",
 
 `Path.of("/test/schedule.xml").relativize(Path.of("/test/text.txt");`
 1. Check if the both root or relative.
-2. Remove the relative "./"
-3. In case is the same bath, remove it.
-4. Concat both schedule.xml/text.txt
-5. Solve it to the last path. In this case ../text.txt
+2. Resolve each one with normalize.
+3. Concat both schedule.xml/text.txt
+4. Solve it to the last path. In this case ../../text.txt
 
        Path.of("./testA/schedule.xml").relativize(Path.of("./testB/../text.txt");
-       testA/schedule.xml/testB/../text.txt
-       ../../testB/../text.txt
+       testA/schedule.xml - text.txt
+       testA/schedule.xml/text.txt
+       ../../text.txt
 
 > The relativize() method requires both paths to be absolute or relative and throws an exception if the types are mixed.
+
+
+        System.out.println(Path.of("./testA/schedule.xml").relativize(Path.of("./testB/../text.txt"))); //../../text.txt
+        System.out.println(Path.of("./testA/schedule.xml").relativize(Path.of("./testB/text.txt")));  //../../testB/text.txt
+
 
 #### Resolve
 
@@ -961,11 +1040,12 @@ Be careful, normalize a path with only ../../file.txt does nothing.
 var p1 = Path.of("/zoo/./bear","../food.txt");
 p1.normalize().relativize(Path.of("/lion")); //DOES NOTHING
 System.out.println(p1.normalize().relativize(Path.of("/lion"))); // ../../lion
-System.out.println(p1); // /zoo/food.txt
+System.out.println(p1); // /zoo/./bear/../food.txt
 
 var p2 = Path.of("/zoo/animals/bear/koala/food.txt");
 System.out.println(p2.subpath(1,3).getName(1)); // bear
 System.out.println(p2.subpath(0,2)); // zoo/animals
+System.out.println(p2.subpath(1,2)); // animals
 
 var p3 = Path.of("/pets/../cat.txt");
 var p4 = Path.of("./dog.txt");
@@ -1017,3 +1097,27 @@ Example:
 The readObject is private
 
     private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
+
+
+### RandomAccessFile
+
+RandomAccessFile is a legacy I/O class (in java.io) that allows reading and writing to a file at any position.
+
+RandomAccessFile raf = new RandomAccessFile("data.txt", "rw"); // or "r"
+
+```java
+RandomAccessFile raf = new RandomAccessFile("test.txt", "rw");
+raf.writeUTF("Hello");
+raf.seek(0);
+String msg = raf.readUTF(); // msg = "Hello"
+raf.close();
+
+
+
+
+RandomAccessFile raf = new RandomAccessFile("file.txt", "rw");
+raf.seek( raf.length() ); 
+raf.writeChars("FINAL TEXT");
+//file.txt with FINAL TEXT
+
+```
