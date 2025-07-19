@@ -51,6 +51,8 @@ proficiency in modern Java programming.
 
 - Book: OCP Oracle Certified Professional Java SE 21 Developer Study Guide: Exam 1Z0-830 from Jeanne Boyarsky, Scott Selikoff 
 
+- Main file from this project: [Notes.md](main/src/main/java/org/bomfim/review/Notes.md)
+
 ## Extra info
 
 * Time limit: 120 minutes

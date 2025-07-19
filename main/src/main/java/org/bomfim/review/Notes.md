@@ -19,8 +19,8 @@
         void method(){
             int a, var b = 3; //DOES NOT COMPILE
             int a, int b = 3; //DOES NOT COMPILE
-            int a, b = 3;//DOES COMPILE
-            var a, b = 3;//DOES COMPILE
+            int a, b = 3;
+            var a, b = 3; //DOES NOT COMPILE
             var a = (Integer) null;
             var x = () -> new Var(); //DOES NOT COMPILE - var cannot be used with Functional Interface
         }
@@ -69,8 +69,8 @@ The output for this class is:
 
     Static block
     Before
-    CONSTRUCTOR
     Block
+    CONSTRUCTOR
     After
 
 * First, static statements/blocks are called IN THE ORDER they are defined.
@@ -142,9 +142,12 @@ Example:
     int monday += 2.0; //does not compile  -> Monday has not been intialized
     int monday = 5;
     monday += 2.0;
-
+    
+    //float amount = 1000.0; //DOES NOT COMPILE
+    float amount = 1000.0f;
     Long getValue() { return 2; //DOES NOT COMPILE }
-
+    long getValue() { return 2;} //WORKS
+        
     System.out.println(2+""); //Autoboxing  //If the other operand is a numeric primitive type, then it is first converted to a reference type using the boxing conversion and then the boxed reference is used to produce a String.
     Integer i = 10; //Autoboxing
 ```
@@ -169,7 +172,7 @@ String b = (String)a; //works
 
 #### Pow
 
-    System.out.println(Math.pow(Math.pow(2, 2) + Math.pow(2, 2), .5)); //2.82..
+    System.out.println(Math.pow(Math.pow(2, 2) + Math.pow(2, 2), .5)); //8.0^0.5 = 2.82..
     System.out.println(Math.pow(Math.pow(2, 2) + Math.pow(2, 2), 0.5)); //2.82..
     System.out.println(Math.pow(Math.pow(2, 2) + Math.pow(2, 2), 1 / 2)); //1.0
     System.out.println(((double) 1 / 2) * (2 * 2)); //2.0
@@ -215,11 +218,13 @@ if(false) works, although the body of the condition is unreachable, this is not 
 ```java
 //var ia[][] = { {1,2}, null}; //DOES NOT COMPILE
 //var ia[][] = new int[][]{ {1,2}, null}; //DOES NOT COMPILE
+int ia[][] = new int[][]{ {1,2}, null};
+int ia[][] = new int[5][0];
 var ia = new int[][]{ {1,2}, null};
-String[ ] sa = new String[3]{ "a", "b", "c"}; //DOES NOT COMPILE
+//String[ ] sa = new String[3]{ "a", "b", "c"}; //DOES NOT COMPILE
 String[ ] sa = new String[]{ "a", "b", "c"};
 String sa[ ] = { "a ", " b", "c"};
-String sa = new String[ ]{"a", "b", "c"}; //DOES NOT COMPILE
+//String sa = new String[ ]{"a", "b", "c"}; //DOES NOT COMPILE
 ```
 ```java
     int[] array = {6, 9, 8};
@@ -227,7 +232,7 @@ String sa = new String[ ]{"a", "b", "c"}; //DOES NOT COMPILE
     System.out.println("C" + Arrays.compare(array, new int[] {6, 9, 8})); //C0
     System.out.println("C" + Arrays.compare(array, new int[]{6, 9, 8, 9, 10, 11})); //C-3
     System.out.println("M" + Arrays.mismatch(array, new int[] {6, 9, 8})); //M-1
-    System.out.println("M" + Arrays.mismatch(array, new int[] {6, 6, 8})); //M 1
+    System.out.println("M" + Arrays.mismatch(array, new int[] {6, 7, 8})); //M 1
 ```
 
 > Compare() will return a positive or negative number with the difference in the number of elements in both the arrays.
@@ -301,6 +306,14 @@ New Date: java.time.LocalDate
 ```
 
 ```java
+System.out.println(Period.between(LocalDate.now(), LocalDate.now().plusDays(1))); //P1D
+System.out.println(Period.between(LocalDate.now(), LocalDate.now().minusDays(1))); //P-1D
+System.out.println(Duration.between(LocalDateTime.now(), LocalDateTime.now().plusDays(1))); //PT24H0.000008S
+System.out.println(Duration.between(LocalDateTime.now(), LocalDateTime.now().minusDays(1))); //PT-23H-59M-59.999993S
+
+```
+
+```java
     If we want to print a single quotes (') we need to use it inside two quotes ' ' ';
     System.out.println(dateTime.format(DateTimeFormatter.ofPattern("MMMM dd', Party''s at' hh:mm"))); //June 01, Party's at 01:01
     "'It''s 'h' hours past midnight, and 'mm' minutes'" //WORKS, must have two '' It's 4 hours past midnight, and 05 minutes 
@@ -315,7 +328,6 @@ New Date: java.time.LocalDate
     LocalDate.of(2025, Month.MARCH, 8); //COMPILE
 
 BE CAREFUL with DateTime with Date variable
-
 
 ```java
     1. var date = LocalDate.of(2025, 4, 3);
@@ -334,7 +346,11 @@ BE CAREFUL with DateTime with Date variable
     System.out.println(result); //2026-06-30T13:04
 ```
 
-#### Summer Time - Daylight Savingn
+```java
+        LocalDate d1 = LocalDate.parse("2022-01-01", DateTimeFormatter.ISO_LOCAL_DATE); //2022-01-01
+//        LocalDate d2 = LocalDate.parse("2022-01-01", DateTimeFormatter.ofPattern("hh:mm")); //DateTimeParseException
+```
+#### Summer Time - Daylight Saving
 
     LocalDate.of(2025, 03, 9).atTime(1, 30, 0).atZone(ZoneId.of("US/Eastern")); // 2025-03-09T01:30-05:00[US/Eastern]
     LocalDate.of(2025, 03, 9).atTime(1, 30, 0).plusHours(1).atZone(ZoneId.of("US/Eastern")); // 2025-03-09T03:30-04:00[US/Eastern]
@@ -362,9 +378,6 @@ ChronoUnit.Hours.between(date1, date2); Calculates the difference between applyi
 
 
 > Durations and periods differ in their treatment of daylight savings time when added to ZonedDateTime. A Duration will add an exact number of seconds, thus a duration of one day is always exactly 24 hours. By contrast, a Period will add a conceptual day, trying to maintain the local time.
-
-
-
 
 ## Cap 05
 
@@ -687,6 +700,13 @@ Arrays.sort("A", "1", "2", "B", "b", "a"}); //1,2,A,B,b,a
 
 ## Cap 10
 
+### Stream
+
+```java
+Stream bkStrm = List.of("AB").stream();
+long count = bkStrm.peek((String x)->x.toUpperCase()).count(); //DOES NOT COMPILE
+```
+
 ## Cap 11
 
 ### Locale
@@ -697,6 +717,12 @@ Arrays.sort("A", "1", "2", "B", "b", "a"}); //1,2,A,B,b,a
 
     Locale.setDefault(Locale.Category category, Locale newLocale)
     Locale.setDefault(Locale newLocale)
+
+### Properties
+
+        Properties properties = System.getProperties();
+        properties.entrySet(); //Set<Map.Entry<Object, Object>>
+        properties.keySet(); //Set<Object>
 
 ## Cap 12
 
@@ -716,6 +742,13 @@ Be careful with public module file `module-info.java`
 
 > Just add an empty module-info.java to the jar. - If you don't export a package then other modular jars cannot access classes from this jar.
 > Every module must reside in a directory (or a jar) of its own.
+
+> If a module wants to read another module but only temporarily, it can request such access using command line options.
+
+> Although not recommended, it is possible to customize what packages a module exports from the command line;
+
+> Modules allows a sealed class and its direct subtypes to be members of different packages
+
 
 ----
 
@@ -872,7 +905,14 @@ This is the "default" module for any code that is placed on the classpath (using
 
 ```
 
+```java
+//Runnable r = () -> 5; //DOES NOT COMPILE
+Runnable r2 = () -> test();
 
+private static int test() {
+    return 0;
+}
+```
 ```
   List.of(1).stream()
   List.of(1).parallelStream()
@@ -902,6 +942,15 @@ This is the "default" module for any code that is placed on the classpath (using
 InterruptedException will be thrown only if the interrupted thread is blocked in an invocation of the sleep, wait, 
 or of the join methods. In the given code, calling a.interrupt() will just set the interrupted flag to true. 
 But this is not checked by the A thread and so it will keep executing the while loop.
+
+### Lock
+
+        ReentrantLock lock = new ReentrantLock();
+        lock.lock();
+        
+        ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+        readWriteLock.writeLock().lock();
+        readWriteLock.readLock().lock();
 
 ## Cap 14
 
@@ -941,7 +990,7 @@ Output:
 - finally
 
 ### Output and Input Stream
-
+```java
         var w = new StringBuilder();
         try(in;
             var o = new BufferedOutputStream(System.out)) {
@@ -953,6 +1002,17 @@ Output:
             o.flush();
         }
         System.out.println(w); //System.out is closed, so it does not print anything.
+```
+```java
+        char[] buffer = new char[5];
+        try (FileReader fr = new FileReader("c:\\temp\\license1.txt"); //01234567
+             FileWriter fw = new FileWriter("c:\\temp\\license2.txt")) {
+            while ((fr.read(buffer)) != -1) {
+                fw.write(buffer);
+            }
+        }
+        //LICENSE2.txt = //0123456734
+```
 
 ### Console
 
@@ -990,14 +1050,18 @@ Thus, for example, If your Path is "c:\\code\\java\\PathTest.java",
 * p1.getName(2) is PathTest.java
 * p1.getName(3) will cause IllegalArgumentException to be thrown.
 
+        System.out.println(Path.of("photos/../test/./a.txt").getNameCount()); //5
+        System.out.println(Path.of("photos/../test/./a.txt").getName(4)); //a.txt
+        System.out.println(Path.of("photos/../test/./a.txt").getName(3)); //.
 
 #### Relativize
 
 `Path.of("/test/schedule.xml").relativize(Path.of("/test/text.txt");`
 1. Check if the both root or relative.
-2. Resolve each one with normalize.
+2. Resolve each one with resolve.
 3. Concat both schedule.xml/text.txt
-4. Solve it to the last path. In this case ../../text.txt
+4. Solve it to the last path.
+5. Apply the normalize. In this case ../text.txt
 
        Path.of("./testA/schedule.xml").relativize(Path.of("./testB/../text.txt");
        testA/schedule.xml - text.txt
@@ -1006,7 +1070,7 @@ Thus, for example, If your Path is "c:\\code\\java\\PathTest.java",
 
 > The relativize() method requires both paths to be absolute or relative and throws an exception if the types are mixed.
 
-
+        System.out.println(Path.of("./testA/abc/schedule.xml").relativize(Path.of("./testB/../text.txt"))); //../../../text.txt
         System.out.println(Path.of("./testA/schedule.xml").relativize(Path.of("./testB/../text.txt"))); //../../text.txt
         System.out.println(Path.of("./testA/schedule.xml").relativize(Path.of("./testB/text.txt")));  //../../testB/text.txt
 
@@ -1094,7 +1158,7 @@ Example:
 
 > The readObject method will be invoked before a Data object is deserialized
 
-The readObject is private
+The readObject can be private
 
     private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
 
