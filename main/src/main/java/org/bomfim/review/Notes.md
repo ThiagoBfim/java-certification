@@ -131,6 +131,28 @@ Example:
 
 ## Cap 02
 
+### Operators
+
+
+In Java, operator precedence dictates the order of evaluation, from postfix (`++`, `--`),
+to prefix (`++`, `--`, `+`, `-`, `~`, `!`),
+then multiplicative (`*`, `/`, `%`),
+additive (`+`, `-`),
+shift (`<<`, `>>`, `>>>`),
+relational (`<`, `<=`, `>`, `>=`, `instanceof`),
+equality (`==`, `!=`), followed by bitwise AND (`&`), XOR (`^`), and OR (`|`), then logical AND (`&&`), logical OR (`||`), the ternary conditional (`? :`),
+and finally assignment operators (`=`, `+=`, etc.).
+
+> Unary operators are always executed before any surrounding numeric binary or ternary operators.
+
+
+        int k = 2;
+        k += (k = 4) * (k + 2); //4*6
+        System.out.println(k); //26
+        k = (k = 4) * (k + 2); //4*6
+        System.out.println(k); //24
+
+
 ### Casting
 
 ```java
@@ -346,8 +368,14 @@ BE CAREFUL with DateTime with Date variable
     System.out.println(result); //2026-06-30T13:04
 ```
 
+Be careful, both works
+
+     System.out.println(DateTimeFormatter.ofPattern("hh:mm:ss").format(LocalTime.now())); //03:54:51
+     System.out.println(LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss"))); //03:54:51
+
 ```java
         LocalDate d1 = LocalDate.parse("2022-01-01", DateTimeFormatter.ISO_LOCAL_DATE); //2022-01-01
+        LocalDate d21 = LocalDate.parse("2022-01-01", DateTimeFormatter.ISO_DATE_TIME); //.DateTimeParseException: Text '2022-01-01'
 //        LocalDate d2 = LocalDate.parse("2022-01-01", DateTimeFormatter.ofPattern("hh:mm")); //DateTimeParseException
 ```
 #### Summer Time - Daylight Saving
@@ -460,6 +488,16 @@ public class Test5 {
 ```
 
 > All fields of an interface are public, static, and final. Therefore, volatile, transient, and synchronized do not make sense for such fields.
+
+```java
+    interface Drink {
+        public static void test(){}
+        private static void test2(){}
+        private void test3(){}
+    }   
+```
+
+Interfaces can have static methods
 
 ### Record
 
@@ -590,7 +628,11 @@ You cannot pass parameters when you implement an interface by an anonymous class
         (i) -> {return i == 5;}
         (Integer i) -> {return i == 5;}
         (int i) -> {return i == 5;} //DOES NOT COMPILE it cannot be primitive 
+//        Consumer x = (String msg)->{ System.out.println(msg); }; //DOES NOT COMPILE
+
 ```
+
+
 
 It takes int primitive as an argument. It can be parameterized to return any type. For example,
 `IntFunction<String> f = x->""+x;` returns a String.
@@ -604,6 +646,7 @@ It takes int primitive as an argument. It can be parameterized to return any typ
     List list = new ArrayList();
     list.add(2, "a"); //java.lang.IndexOutOfBoundsException: Index: 2, Size: 0
     System.out.println(List.of("a", "b", "c").subList(2,3)); //c
+    System.out.println(List.of("a", "b", "c").subList(2,2)); //empty
     System.out.println(List.of("a", "b", "c").subList(2,4)); //java.lang.IndexOutOfBoundsException
 ```
 The reference type is ArrayList and the object type is List
@@ -695,8 +738,9 @@ getList(new ArrayList<Integer>()); //Does not compile
         Integer value2 = List.of(1,2,3).stream().max(Comparator.comparing(Integer::intValue)).get(); //3
         Integer value3 = List.of(1,2,3).stream().max(Comparator.comparingInt(Integer::intValue)).get(); //3
 
-Arrays.sort("A", 1, "2", "B", "b", "a"}); //java.lang.ClassCastException All the objects must be the same type
-Arrays.sort("A", "1", "2", "B", "b", "a"}); //1,2,A,B,b,a
+
+    Arrays.sort("A", 1, "2", "B", "b", "a"}); //java.lang.ClassCastException All the objects must be the same type
+    Arrays.sort("A", "1", "2", "B", "b", "a"}); //1,2,A,B,b,a
 
 ## Cap 10
 
@@ -724,6 +768,62 @@ long count = bkStrm.peek((String x)->x.toUpperCase()).count(); //DOES NOT COMPIL
         properties.entrySet(); //Set<Map.Entry<Object, Object>>
         properties.keySet(); //Set<Object>
 
+
+        ResourceBundle.getBundle("Zoo").getObject("hello");
+        ResourceBundle.getBundle("Zoo").getString("hello");
+        ResourceBundle.getBundle("Zoo").getKeys();
+        ResourceBundle.getBundle("Zoo").getStringArray("hello");
+
+The order is to get the file more specific and then the others.
+Example:
+1. Zoo_fr_FR.properties //Requested locale
+2. Zoo_fr.properties //Language we requested with no country
+3. Zoo.properties //default bundle
+
+**BE CAREFUL: the order above is in case there is a match with the requested locale.**
+
+In case there is not match, the ResourceBundle will try to get the config file following this order:
+
+1. Zoo_en_US.properties //default locale
+2. Zoo_en.properties //default locale's language with no country
+3. Zoo.properties //default bundle
+   //Exception if not found
+
+> Once a resource bundle has been selected, only properties along a single hierarchy will be used
+
+Note: Trying to get the resource from a specifc locale does not try to merge with the default locale.
+
+Example:
+
+Locale.setDefault(Locale.FRANCE);
+var locale = new Locale.Builder().setLanguage("en").build();
+var rb = ResourceBundle.getBundle("msg", locale);
+
+The file used will be:
+
+* msg_en.properties
+* msg_fr_FR.properties
+* msg.properties
+* msg_fr_EN.properties // WILL not be used
+
+
+### NumberFormat
+
+NumberFormat.parse throws ParseException
+
+        try {
+            System.out.println(NumberFormat.getCompactNumberInstance(Locale.getDefault(), NumberFormat.Style.SHORT).parse("1000")); //1000
+            System.out.println(NumberFormat.getCompactNumberInstance(Locale.getDefault(), NumberFormat.Style.SHORT).parse("1K")); //1000
+            System.out.println(NumberFormat.getCompactNumberInstance(Locale.getDefault(), NumberFormat.Style.SHORT).parse("1k")); //1
+            System.out.println(NumberFormat.getCompactNumberInstance(Locale.getDefault(), NumberFormat.Style.SHORT).parse("1a")); //1
+            System.out.println(NumberFormat.getCompactNumberInstance(Locale.getDefault(), NumberFormat.Style.SHORT).parse("1.000")); //1
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        Note: NumberFormat.getCompactNumberInstance(Locale.getDefault(), NumberFormat.Style.SHORT).format(29_874) does not throws checked exception
+
+
 ## Cap 12
 
 ### Modules
@@ -748,6 +848,8 @@ Be careful with public module file `module-info.java`
 > Although not recommended, it is possible to customize what packages a module exports from the command line;
 
 > Modules allows a sealed class and its direct subtypes to be members of different packages
+
+> A module can be used by non-modular code by putting that module on the classpath.
 
 
 ----
@@ -806,8 +908,8 @@ module-path, it can no longer access classes on classpath.
 Print service interface defined in PrintServiceAPI module using com.abc.PrintImpl class, then this is how its module-info.java should look:
 ```
 module abc.print {
-  requires PrintServiceAPI; //required //because this module defines the service interface org.printing.Print provides
-  org.printing.Print with com.abc.PrintImpl;
+  requires PrintServiceAPI; //required //because this module defines the service interface org.printing.Print 
+  provides org.printing.Print with com.abc.PrintImpl;
 }
 ```
 
@@ -884,13 +986,26 @@ This is the "default" module for any code that is placed on the classpath (using
 
 * Callable - V call() throws Exception; 
 * Runnable - void run();
+* 
+```java
+Thread.run() //Sync
+Thread.start() // Async
 
-      Thread.run() //Sync
-      Thread.start() // Async
+Executors
+   .newSingleThreadExecutor()
+   .execute(Runnable)
+```
 
-      Executors
-         .newSingleThreadExecutor()
-         .execute(Runnable)
+> Thread.start will call the Thread.run at sometime in asynchronous mode.
+
+```java
+ExecutorService newSingleThreadExecutor()
+ScheduledExecutorService newSingleThreadScheduledExecutor()
+ExecutorService newCachedThreadPool()
+ExecutorService newFixedThreadPool(int)
+ScheduledExecutorService newScheduledThreadPool(int)
+ExecutorService newVirtualThreadPerTaskExecutor()
+```
 
 ```java
 
@@ -898,7 +1013,7 @@ This is the "default" module for any code that is placed on the classpath (using
      void execute(Runnable command);
    }
    
-   ExecutorSerivce {
+   ExecutorService {
      Future<?> submit(Runnable task);
      <T> Future<T> submit(Callable<T> task);
    }
@@ -908,6 +1023,7 @@ This is the "default" module for any code that is placed on the classpath (using
 ```java
 //Runnable r = () -> 5; //DOES NOT COMPILE
 Runnable r2 = () -> test();
+Runnable r = () -> { int x = 5; };
 
 private static int test() {
     return 0;
@@ -988,6 +1104,24 @@ Output:
 - close
 - Error
 - finally
+
+
+
+> Finally can return value, the value will be the value from finally
+
+    public static int tryCatch() {
+        try {
+            print(1, 2.0);
+            return 2;
+        } catch (Exception exception) {
+            return 6;
+        } finally {
+            return 5;
+        }
+    //        return 2;
+    }
+
+Output: 5
 
 ### Output and Input Stream
 ```java

@@ -45,6 +45,7 @@ public class Test6 {
         System.out.println(date.plus(Period.ofDays(1))); //2022-11-01T10:00-04:00[US/Eastern]
 
         LocalDate d1 = LocalDate.parse("2022-01-01", DateTimeFormatter.ISO_LOCAL_DATE); //2022-01-01
+//        LocalDate d21 = LocalDate.parse("2022-01-01", DateTimeFormatter.ISO_DATE_TIME); //.DateTimeParseException: Text '2022-01-01'
 //        LocalDate d2 = LocalDate.parse("2022-01-01", DateTimeFormatter.ofPattern("hh:mm")); //DateTimeParseException
         System.out.println(d1);
     }

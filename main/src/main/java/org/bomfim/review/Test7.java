@@ -12,9 +12,11 @@ import java.util.*;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class Test7 {
+    static int x;
 
     public static void main(String[] args) throws IOException {
 //        char[] buffer = new char[5];
@@ -26,9 +28,13 @@ public class Test7 {
 //        }
 //        //LICENSE2.txt = //0123456734
 
+        Runnable r = () -> {
+            int x = 5;
+        };
 //        float amount = 1000.0; //DOES NOT COMPILE
         float amount = 1000.0f;
-
+        HashSet<Number> hs = new HashSet<Number>();
+//        Consumer x = (String msg)->{ System.out.println(msg); }; //DOES NOT COMPILE
         Stream bkStrm = List.of("AB").stream();
 //        long count = bkStrm.peek((String x)->x.toUpperCase()).count(); //DOES NOT COMPILE
 
@@ -46,6 +52,11 @@ public class Test7 {
         System.out.println(Path.of("../../test/./a.txt").normalize()); //../../test/a.txt
         System.out.println(Path.of("/../../test/./a.txt").normalize()); ///test/a.txt
         System.out.println(Path.of("c:\\..\\test\\a.txt").normalize()); //c:\..\test\a.txt
+
+        System.out.println(Path.of("./../schedule.xml").resolve(Path.of("./e/abc/text.txt"))); //./../schedule.xml/./e/abc/text.txt
+//        System.out.println(Path.of("./../schedule.xml").relativize(Path.of("./e/abc/text.txt"))); //Unable to compute relative  path from ./../schedule.xml to ./e/abc/text.txt
+        System.out.println(Path.of("schedule.xml").relativize(Path.of("./../../test/text.txt"))); //../../../test/text.txt
+//        System.out.println(Path.of("./../../test/./a.txt").relativize(Path.of("abc.txt"))); //IllegalArgumentException: Unable to compute relative  path from ./../../test/./a.txt to abc.txt
 
         A a = new B();
         System.out.println(a.x);
@@ -83,6 +94,10 @@ public class Test7 {
     static class A {
         public int x = 5;
 
+        public A(){
+            System.out.println("A constructor");
+            print();
+        }
         public void print() {
             System.out.println("A print " + x);
         }
@@ -91,8 +106,12 @@ public class Test7 {
     static class B extends A {
         public int x = 10;
 
+        public B(){
+            System.out.println("B constructor");
+            print();
+        }
         public void print() {
-            System.out.println("A print " + x);
+            System.out.println("B print " + x);
         }
 
         public void print(Integer x) {

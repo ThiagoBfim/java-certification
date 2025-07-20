@@ -12,6 +12,6 @@ Should have at least 34 correct - 68% of the test
 | 5 Mock Test - Test 3                        | 17/07/2025 | 50           | 1:22    | 32         | 64%   | NO     |
 | 6 Mock Test - Test 4                        | 18/07/2025 | 50           | 1:05    | 37         | 74%   | YES    |
 | 7 Mock Test - Test 5                        | 19/07/2025 | 50           | 1:21    | 31         | 62%   | NO     |
-| 8 Mock Test - Test 6                        | 19/07/2025 | 50           |         |            |       |        |
-| 9 Mock Test - Unique Test 4                 | 20/07/2025 | 50           |         |            |       |        |
+| 8 Mock Test - Test 6                        | 19/07/2025 | 50           | 1:24    | 31         | 62%   | NO     |
+| 9 Mock Test - Unique Test 4                 | 20/07/2025 | 54           | 1:54    | 33         | 61%   | NO     |
 | Final Test                                  | 21/07/2025 | 50           |         |            |       |        |

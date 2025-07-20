@@ -175,7 +175,6 @@ public class Exercises {
         try (var exec = Executors.newFixedThreadPool(4)) {
             CyclicBarrier c1 = new CyclicBarrier(4, () -> System.out.println("Do first action"));
             CyclicBarrier c2 = new CyclicBarrier(4, () -> System.out.println("Do second action"));
-
             for (int i = 0; i < 4; i++) {
                 exec.submit(() -> {
                     try {
