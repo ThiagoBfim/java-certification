@@ -1,6 +1,7 @@
 package org.bomfim.chapter11;
 
 import java.text.DecimalFormat;
+import java.text.Format;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.*;
@@ -70,6 +71,7 @@ public class Formatting {
                 Locale.setDefault(Locale.Category.FORMAT,Locale.US); //Configures only the formatter
                 """);
 
+        Format currencyInstance = NumberFormat.getCurrencyInstance();
         System.out.println(NumberFormat.getCurrencyInstance().format(1.99)); //€1.99
         System.out.println(Locale.of("es", "ES").getDisplayLanguage()); //Spanish
         System.out.println(Locale.of("en", "US").getDisplayLanguage()); //English

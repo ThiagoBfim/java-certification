@@ -142,12 +142,12 @@ shift (`<<`, `>>`, `>>>`),
 relational (`<`, `<=`, `>`, `>=`, `instanceof`),
 equality (`==`, `!=`), followed by bitwise AND (`&`), XOR (`^`), and OR (`|`), then logical AND (`&&`), logical OR (`||`), the ternary conditional (`? :`),
 and finally assignment operators (`=`, `+=`, etc.).
-
+    
 > Unary operators are always executed before any surrounding numeric binary or ternary operators.
 
 
         int k = 2;
-        k += (k = 4) * (k + 2); //4*6
+        k += (k = 4) * (k + 2); //2+4*6
         System.out.println(k); //26
         k = (k = 4) * (k + 2); //4*6
         System.out.println(k); //24
@@ -167,6 +167,9 @@ and finally assignment operators (`=`, `+=`, etc.).
     
     //float amount = 1000.0; //DOES NOT COMPILE
     float amount = 1000.0f;
+    float amount2 = 1000; //works
+    //float d = 0 * 1.5; //DOES NOT COMPILE
+
     Long getValue() { return 2; //DOES NOT COMPILE }
     long getValue() { return 2;} //WORKS
         
@@ -512,6 +515,18 @@ Interfaces can have static methods
 ### Switch
 
 Switch can be used with these primitive types: `byte, short, char, int`
+
+In a regular switch statements or expressions, default cannot be combined with any other case labels. If default label is present, it must be on a separate from other case labels. 
+
+However, for a switch with pattern matching, the JLS explicitly allows case null, default label, which combines null and default.
+
+        byte b = 127;
+        int r = switch (b) {
+            case -2 -> b;
+            case 3,4 -> b;
+        //            case5, default -> b; //DOES NOT compile
+        default -> b;
+        };
 
 
 ### Sealed and Switch and Record

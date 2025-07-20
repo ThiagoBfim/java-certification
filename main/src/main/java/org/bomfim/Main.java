@@ -3,6 +3,7 @@ package org.bomfim;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -153,6 +154,9 @@ public class Main {
         test3();
         files();
         date();
+
+        Person bc = new Person("bc");
+        System.out.println(bc.name());
     }
 
     private static void stringBuilder() {
@@ -162,12 +166,22 @@ public class Main {
         x.charAt(3); //5
     }
 
-    sealed interface Member permits Person {
+    sealed interface Member extends Serializable permits Person {
         String role();
     }
 
-    record Person(String name) implements Member {
+//    public static sealed abstract class Person21 permits Student2 {
+//    }
+//
+//    static record Student2(int id) extends Person21 {
+//    }
 
+    private record Person(String name) implements Member {
+
+        Person{
+            name = "an";
+        }
+//        public Person(String person){}
         @Override
         public String role() {
             return "";
