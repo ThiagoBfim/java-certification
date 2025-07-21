@@ -2,9 +2,7 @@ package org.bomfim;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,12 +10,11 @@ import java.time.Month;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
-
-import org.bomfim.Main;
 
 public class Main {
 
@@ -157,6 +154,30 @@ public class Main {
 
         Person bc = new Person("bc");
         System.out.println(bc.name());
+
+        int ia[][] = { {1,2}, null};
+//        String[ ] sa = new String[3];
+//        String sa = new String[]{"a", "b", "c"};
+        String[ ] sa = new String[]{ "a", "b", "c"};
+
+//        System.out.println("abcd".substring(2,10));
+
+//        byte a = 125;
+        char a = 15647;
+        Function<String, Double> func = (String it) -> Double.valueOf(it);
+        Function<String, Double> func2 = Double::valueOf;
+
+        List<? extends Number> nums = List.of(1, 2, 3);
+        Number number = nums.get(0);
+
+//        List<? super Integer> nums = new ArrayList<Number>();
+//        nums.add(10); // ✅ OK
+//        Object numa = nums.get(0);
+//        System.out.println(nums.get(0));
+
+        String[] a1 = {"A", "a", "1", "*", "_"};
+        Arrays.sort(a1);
+        System.out.println(Arrays.toString(a1));
     }
 
     private static void stringBuilder() {
@@ -187,6 +208,7 @@ public class Main {
             return "";
         }
     }
+
 
     enum Coffee {
         COFFEE("Coffee");

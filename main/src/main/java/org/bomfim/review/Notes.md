@@ -241,16 +241,19 @@ if(false) works, although the body of the condition is unreachable, this is not 
 ### Arrays
 
 ```java
-//var ia[][] = { {1,2}, null}; //DOES NOT COMPILE
-//var ia[][] = new int[][]{ {1,2}, null}; //DOES NOT COMPILE
+//var ia[][] = { {1,2}, null}; //DOES NOT COMPILE, cannot use var without the type, missing new int[][]
+//var ia[][] = new int[][]{ {1,2}, null}; //DOES NOT COMPILE, cannot used the [][] with var.
+var ia = new int[][]{ {1,2}, null};
+int ia[][] = { {1,2}, null};
 int ia[][] = new int[][]{ {1,2}, null};
 int ia[][] = new int[5][0];
-var ia = new int[][]{ {1,2}, null};
-//String[ ] sa = new String[3]{ "a", "b", "c"}; //DOES NOT COMPILE
+//String[ ] sa = new String[3]{ "a", "b", "c"}; //DOES NOT COMPILE, cannot initialize the value and the list
+String[ ] sa = new String[3];
 String[ ] sa = new String[]{ "a", "b", "c"};
 String sa[ ] = { "a ", " b", "c"};
-//String sa = new String[ ]{"a", "b", "c"}; //DOES NOT COMPILE
+//String sa = new String[ ]{"a", "b", "c"}; //DOES NOT COMPILE - type String
 ```
+
 ```java
     int[] array = {6, 9, 8};
     System.out.println("B" + Arrays.binarySearch(array, 9)); //B-1 Array is not sorted
@@ -494,6 +497,8 @@ public class Test5 {
 
 ```java
     interface Drink {
+        // private static final int y = 11; DOES NOT COMPILE
+        static final int y = 11;
         public static void test(){}
         private static void test2(){}
         private void test3(){}
@@ -648,6 +653,22 @@ You cannot pass parameters when you implement an interface by an anonymous class
 ```
 
 
+| Functional interface | Return type | Method name  | # of parameters |
+|----------------------|-------------|--------------|-----------------|
+| Supplier<T>          | T           | get()        | 0               |
+| Consumer<T>          | void        | accept(T)    | 1 (T)           |
+| BiConsumer<T, U>     | void        | accept(T, U) | 2 (T, U)        |
+| Predicate<T>         | boolean     | test(T)      | 1 (T)           |
+| BiPredicate<T, U>    | boolean     | test(T, U)   | 2 (T, U)        |
+| Function<T, R>       | R           | apply(T)     | 1 (T)           |
+| BiFunction<T, U, R>  | R           | apply(T, U)  | 2 (T, U)        |
+| UnaryOperator<T>     | T           | apply(T)     | 1 (T)           |
+| BinaryOperator<T>    | T           | apply(T, T)  | 2 (T, T)        |
+
+Example:
+
+        Function<String, Double> func = (String it) -> Double.valueOf(it);
+        Function<String, Double> func2 = Double::valueOf;
 
 It takes int primitive as an argument. It can be parameterized to return any type. For example,
 `IntFunction<String> f = x->""+x;` returns a String.
@@ -734,6 +755,34 @@ getList(new ArrayList<Integer>()); //Does not compile
         }
     }
 ```
+
+####  ? extends Type – Producer
+
+    List<? extends Number> nums = List.of(1, 2, 3);
+    Number number = nums.get(0);
+    nums.add(10); // DOES NOT COMPILE
+
+Can read, but can't add anything (except null).
+
+You know they’re Number or a subtype (Integer, Double, etc.).
+
+> Use when you're getting (producing) data.
+
+####  ? super Type – Consumer
+
+    List<? super Integer> nums = new ArrayList<Number>();
+    nums.add(10); // ✅ OK
+    Object numa = nums.get(0);
+    Integer numa = nums.get(0); DOES NOT COMPILE, Needs cast
+    nums.add(3.14); // ❌ Error: not Integer
+
+Can add Integer and its subtypes.
+
+But when reading, you get Object.
+
+> Use when you're putting (consuming) data.
+
+
 ### Comparator
 
                 public interface java.lang.Comparable<T> {
@@ -810,9 +859,11 @@ Note: Trying to get the resource from a specifc locale does not try to merge wit
 
 Example:
 
+```java
 Locale.setDefault(Locale.FRANCE);
 var locale = new Locale.Builder().setLanguage("en").build();
 var rb = ResourceBundle.getBundle("msg", locale);
+```
 
 The file used will be:
 
@@ -1001,7 +1052,7 @@ This is the "default" module for any code that is placed on the classpath (using
 
 * Callable - V call() throws Exception; 
 * Runnable - void run();
-* 
+
 ```java
 Thread.run() //Sync
 Thread.start() // Async
@@ -1052,7 +1103,7 @@ private static int test() {
 
 ```java
         try (ExecutorService executorService = Executors.newScheduledThreadPool(1)) {
-            ScheduledFuture<Integer> schedule = scheduledExecutorService.schedule(() -> 10, 5, TimeUnit.MILLISECONDS); //DOES NOT COMPILE
+            ScheduledFuture<Integer> schedule = executorService.schedule(() -> 10, 5, TimeUnit.MILLISECONDS); //DOES NOT COMPILE - ScheduledFuture
         }
         
         try (ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1)) {

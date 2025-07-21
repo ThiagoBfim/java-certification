@@ -2,11 +2,9 @@ package org.bomfim.review;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Test9 {
 
@@ -43,6 +41,10 @@ public class Test9 {
 //        for(;;Math.random()){System.out.println("true");}  INFINITE LOOP
 
 
+        List<String> list = new ArrayList();
+        boolean a = list.remove("a");
+        System.out.println(a);
+//        String remove = list.remove(2);
         byte b = 127;
         int r = switch (b) {
             case -2 -> b;
@@ -61,6 +63,16 @@ public class Test9 {
 
         System.out.println(Paths.get("test/abc/aa/out.txt")
                 .relativize(Paths.get("client.dat"))); //../client.dat
+    }
+
+    public int x (){
+        try {
+            print(1, 2.0);
+        } finally {
+            return 5;
+        }
+//        return 2; //UNREACHABLE
+
     }
 
     public static int tryCatch() {

@@ -1,5 +1,7 @@
 package org.bomfim.chapter11;
 
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.NumberFormat;
@@ -12,7 +14,7 @@ import java.util.stream.Stream;
 
 public class Formatting {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
 
         decimalFormat();
         formattingDate();
@@ -22,7 +24,7 @@ public class Formatting {
 
     }
 
-    private static void compactNumberFormat() {
+    private static void compactNumberFormat() throws FileNotFoundException {
         System.out.println("\nCompactNumberFormat");
         System.out.println("""
                 CompactNumberFormat is similar to DecimalFormat, but it is designed to be used in places where print space may be limited.
@@ -59,6 +61,7 @@ public class Formatting {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
         LocalDateTime now = LocalDateTime.now();
         System.out.println(now.format(dateTimeFormatter.withLocale(Locale.ITALY))); // 18/06/25
+//        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream("./test.txt"));
 
         System.out.println("""
                 Be careful: For the exam, you should be familiar with the two enum
